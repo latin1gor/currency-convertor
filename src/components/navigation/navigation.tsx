@@ -1,4 +1,4 @@
-import LogoIcon from "../logo/logo-icon";
+import LogoIcon from "@/components/logo/logo-icon";
 
 const Navigation = () => {
   return (
