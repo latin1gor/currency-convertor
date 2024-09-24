@@ -1,4 +1,5 @@
 import LogoIcon from "@/components/logo/logo-icon";
+import { ModeToggle } from "@/components/providers/theme-provider";
 
 const Navigation = () => {
   return (
@@ -8,6 +9,7 @@ const Navigation = () => {
       }
     >
       <LogoIcon />
+      <ModeToggle />
     </div>
   );
 };

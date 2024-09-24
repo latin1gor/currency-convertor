@@ -1,5 +1,11 @@
+import CurrencyChart from "@/components/header/currency-chart";
+
 const Header = () => {
-  return <div></div>;
+  return (
+    <>
+      <CurrencyChart />
+    </>
+  );
 };
 
 export default Header;

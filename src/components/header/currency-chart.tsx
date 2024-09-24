@@ -17,78 +17,114 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-
-export const description = "A simple area chart";
-
-const chartData = [
-  { month: "January", desktop: 186 },
-  { month: "February", desktop: 305 },
-  { month: "March", desktop: 237 },
-  { month: "April", desktop: 73 },
-  { month: "May", desktop: 209 },
-  { month: "June", desktop: 214 },
-];
+import { useEffect, useState } from "react";
+import { getUahCurrency } from "@/services/chart-currency-service";
+import CountUp from "react-countup";
 
 const chartConfig = {
   desktop: {
     label: "Desktop",
-    color: "hsl(var(--chart-1))",
+    color: "hsl(var(--chart-3))",
   },
 } satisfies ChartConfig;
 
-export function Component() {
+const CurrencyChart = () => {
+  const [loading, setLoading] = useState(true);
+  const [data, setData] = useState<any>([]);
+
+  useEffect(() => {
+    setLoading(true);
+    getUahCurrency().then((res) => {
+      if (res.isSuccess) {
+        setLoading(false);
+        const chartData = Object.entries(res.data.quotes).map(
+          ([currencyPair, rate]) => {
+            return {
+              currency: currencyPair.replace("UAH", ""),
+              rate: rate,
+            };
+          },
+        );
+        setData(chartData);
+        console.log(chartData);
+      }
+    });
+  }, []);
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Area Chart</CardTitle>
-        <CardDescription>
-          Showing total visitors for the last 6 months
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig}>
-          <AreaChart
-            accessibilityLayer
-            data={chartData}
-            margin={{
-              left: 12,
-              right: 12,
-            }}
-          >
-            <CartesianGrid vertical={false} />
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent indicator="line" />}
-            />
-            <Area
-              dataKey="desktop"
-              type="natural"
-              fill="var(--color-desktop)"
-              fillOpacity={0.4}
-              stroke="var(--color-desktop)"
-            />
-          </AreaChart>
-        </ChartContainer>
-      </CardContent>
-      <CardFooter>
-        <div className="flex w-full items-start gap-2 text-sm">
-          <div className="grid gap-2">
-            <div className="flex items-center gap-2 font-medium leading-none">
-              Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+    <div className={"flex justify-center items-center w-full p-20"}>
+      <div className={"flex items-center justify-between gap-x-10"}>
+        <h1 className={"text-5xl font-black text-primary grid grid-cols-2"}>
+          {" "}
+          <CountUp
+            className={"pr-4"}
+            start={10}
+            end={1}
+            duration={1.75}
+            separator=" "
+            decimals={2}
+            decimal=","
+            onEnd={() => console.log("Ended! 👏")}
+            onStart={() => console.log("Started! 💨")}
+          />{" "}
+          <div>UAH =</div>
+        </h1>
+
+        <Card className={"min-w-4xl min-h-96"}>
+          <CardHeader>
+            <CardTitle>Currency UAH Chart</CardTitle>
+            <CardDescription className={"mb-4"}>
+              Showing the current exchange rate of currencies (USD, EUR)
+              <span className={"font-bold"}> against the 1 UAH</span>.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className={"min-h-[310px]"}>
+            {!loading && (
+              <ChartContainer config={chartConfig}>
+                <AreaChart
+                  accessibilityLayer
+                  data={data}
+                  margin={{
+                    left: 12,
+                    right: 12,
+                  }}
+                >
+                  <CartesianGrid vertical={false} />
+                  <XAxis
+                    interval="preserveStartEnd"
+                    dataKey="currency"
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={8}
+                  />
+                  <ChartTooltip
+                    cursor={false}
+                    content={<ChartTooltipContent indicator="line" />}
+                  />
+                  <Area
+                    dataKey="rate"
+                    type="natural"
+                    fill="var(--color-desktop)"
+                    fillOpacity={0.4}
+                    stroke="var(--color-desktop)"
+                  />
+                </AreaChart>
+              </ChartContainer>
+            )}
+          </CardContent>
+          <CardFooter>
+            <div className="flex w-full items-start gap-2 text-sm">
+              <div className="grid gap-2">
+                <div className="flex items-center gap-2 font-medium leading-none">
+                  Trending up by 5.2% this month{" "}
+                  <TrendingUp className="h-4 w-4" />
+                </div>
+              </div>
             </div>
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              January - June 2024
-            </div>
-          </div>
-        </div>
-      </CardFooter>
-    </Card>
+          </CardFooter>
+        </Card>
+      </div>
+    </div>
   );
-}
+};
+
+export default CurrencyChart;
