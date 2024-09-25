@@ -2,11 +2,10 @@
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getCurrencies } from "@/services/currency-service";
 import CurrencyDropdown from "@/components/currency-convertor/currency-dropdown";
 import { ArrowLeftRight } from "lucide-react";
-import { debounce } from "@/lib/utils";
 
 const CurrencyConvertor = () => {
   const [amount, setAmount] = useState(1);
@@ -50,11 +49,6 @@ const CurrencyConvertor = () => {
   useEffect(() => {
     onCurrencyConvert(false, convertedAmount);
   }, [toCurrency]);
-
-  // const onDebounceAmountChange = useCallback(
-  //   debounce((value: boolean) => onCurrencyConvert(value), 500),
-  //   [],
-  // );
 
   const onSwapCurrency = () => {
     setToCurrency(fromCurrency);
