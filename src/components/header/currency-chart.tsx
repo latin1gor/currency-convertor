@@ -31,7 +31,7 @@ const chartConfig = {
 
 const CurrencyChart = () => {
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<any>([]);
+  const [data, setData] = useState<{ currency: string; rate: unknown }[]>([]);
   const [reachLimit, setReachLimit] = useState(false);
 
   useEffect(() => {

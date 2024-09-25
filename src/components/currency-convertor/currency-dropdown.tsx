@@ -10,7 +10,7 @@ import {
 interface ICurrencyDropdownProps {
   currency: string | null;
   currencies: [{ code: string; name: string }];
-  setCurrency: (value: any) => void;
+  setCurrency: (value: string) => void;
   placeHolder: string;
 }
 
