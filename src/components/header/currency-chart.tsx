@@ -20,6 +20,7 @@ import {
 import { useEffect, useState } from "react";
 import { getUahCurrency } from "@/services/chart-currency-service";
 import CountUp from "react-countup";
+import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 
 const chartConfig = {
   desktop: {
@@ -52,22 +53,9 @@ const CurrencyChart = () => {
   }, []);
   return (
     <div className={"flex justify-center items-center w-full p-20"}>
+      <TextGenerateEffect words={"1 UAH ="} />
       <div className={"flex items-center justify-between gap-x-10"}>
-        <h1 className={"text-5xl font-black text-primary grid grid-cols-2"}>
-          {" "}
-          <CountUp
-            className={"pr-4"}
-            start={10}
-            end={1}
-            duration={1.75}
-            separator=" "
-            decimals={2}
-            decimal=","
-            onEnd={() => console.log("Ended! 👏")}
-            onStart={() => console.log("Started! 💨")}
-          />{" "}
-          <div>UAH =</div>
-        </h1>
+        <div className={"flex text-6xl font-black text-primary"}></div>
 
         <Card className={"min-w-4xl min-h-96"}>
           <CardHeader>
