@@ -11,7 +11,9 @@ const LogoIcon = () => {
           "bg-gradient-to-b from-orange-500 to-yellow-300 rounded-xl p-1"
         }
       />{" "}
-      <h1 className={"font-bold text-2xl"}>Personal Currency Convertor</h1>
+      <h1 className={"font-bold text-xl md:text-2xl"}>
+        Personal Currency Convertor
+      </h1>
     </div>
   );
 };
