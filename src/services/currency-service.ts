@@ -14,3 +14,14 @@ export const getUahCurrency = async () => {
     return { isSuccess: false, reachLimit: false, error: error };
   }
 };
+
+export const getCurrencies = async () => {
+  try {
+    const res = await fetch("https://api.frankfurter.app/currencies");
+    const data = await res.json();
+    return { isSuccess: true, data };
+  } catch (error) {
+    console.error(error);
+    return { isSuccess: false };
+  }
+};

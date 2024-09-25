@@ -5,7 +5,7 @@ const Navigation = () => {
   return (
     <div
       className={
-        "flex justify-between px-10 h-20 items-center border-b  border-gray-900"
+        "flex justify-between px-10 h-20 items-center border-b border-gray-300  dark:border-gray-900"
       }
     >
       <LogoIcon />
