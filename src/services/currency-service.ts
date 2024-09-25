@@ -2,7 +2,7 @@
 export const getUahCurrency = async () => {
   try {
     const res = await fetch(
-      `https://api.exchangerate.host/live?access_key=${process.env.NEXT_PUBLIC_CURRENCY_API_KEY}&source=${process.env.NEXT_PUBLIC_BASE_CURRENCY}&currencies=USD,AUD,EUR,PLN,MXN,GBP,JPY,CNY`,
+      `https://api.exchangerate.host/live?access_key=${process.env.NEXT_PUBLIC_CURRENCY_API_KEY || "2602c3446b00674f70b363d9e27934e8"}&source=${process.env.NEXT_PUBLIC_BASE_CURRENCY || "UAH"}&currencies=USD,AUD,EUR,PLN,MXN,GBP,JPY,CNY`,
     );
     const data = await res.json();
     if (data.success) {
