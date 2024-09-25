@@ -1,3 +1,4 @@
+"use client";
 export const getUahCurrency = async () => {
   try {
     const res = await fetch(

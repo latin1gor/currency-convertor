@@ -1,9 +1,16 @@
+"use client";
 import { ring } from "ldrs";
-
-ring.register();
+import { useEffect, useState } from "react";
 
 const Loader = () => {
-  return <l-ring size="45" speed="2" color="orange"></l-ring>;
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      ring.register();
+      setLoading(true);
+    }
+  }, []);
+  return <>{loading && <l-ring size="45" speed="2" color="orange"></l-ring>}</>;
 };
 
 export default Loader;
