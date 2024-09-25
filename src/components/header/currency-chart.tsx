@@ -18,7 +18,7 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { useEffect, useState } from "react";
-import { getUahCurrency } from "@/services/chart-currency-service";
+import { getUahCurrency } from "@/services/currency-service";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import Loader from "@/components/loader/loader";
 
@@ -54,9 +54,7 @@ const CurrencyChart = () => {
   }, []);
   return (
     <div
-      className={
-        "flex flex-col md:flex-row justify-center items-center w-full p-6 pt-14 md:p-20"
-      }
+      className={"flex flex-col md:flex-row justify-center items-center w-full"}
     >
       <TextGenerateEffect
         words={"The hryvnia (UAH) exchange rate against other currencies."}
@@ -66,7 +64,9 @@ const CurrencyChart = () => {
 
         <Card className={"min-w-4xl min-h-96"}>
           <CardHeader>
-            <CardTitle className={"font-black"}>How much is 1 UAH</CardTitle>
+            <CardTitle className={"font-black text-xl text-primary"}>
+              How much is 1 UAH
+            </CardTitle>
             <CardDescription className={"mb-4"}>
               Showing the current exchange rate of currencies (USD, EUR)
               <span className={"font-bold"}> against the 1 UAH</span>.
