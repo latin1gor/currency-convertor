@@ -4,10 +4,13 @@ export const getUahCurrency = async () => {
       `https://api.exchangerate.host/live?access_key=${process.env.NEXT_PUBLIC_CURRENCY_API_KEY}&source=${process.env.NEXT_PUBLIC_BASE_CURRENCY}&currencies=USD,AUD,EUR,PLN,MXN,GBP,JPY,CNY`,
     );
     const data = await res.json();
-    console.log(data);
-    return { isSuccess: true, data };
+    if (data.success) {
+      return { isSuccess: true, data };
+    } else {
+      return { isSuccess: false, reachLimit: true };
+    }
   } catch (error) {
     console.error(error);
-    return { isSuccess: false, error: error };
+    return { isSuccess: false, reachLimit: false, error: error };
   }
 };

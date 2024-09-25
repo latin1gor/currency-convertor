@@ -1,9 +1,9 @@
-import { ripples } from "ldrs";
+import { ring } from "ldrs";
 
-ripples.register();
+ring.register();
 
 const Loader = () => {
-  return <l-ripples size="45" speed="2" color="black"></l-ripples>;
+  return <l-ring size="45" speed="2" color="orange"></l-ring>;
 };
 
 export default Loader;

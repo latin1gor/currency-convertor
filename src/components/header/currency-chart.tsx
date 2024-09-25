@@ -1,6 +1,6 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
+import { ShieldAlert, TrendingUp } from "lucide-react";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 
 import {
@@ -19,8 +19,8 @@ import {
 } from "@/components/ui/chart";
 import { useEffect, useState } from "react";
 import { getUahCurrency } from "@/services/chart-currency-service";
-import CountUp from "react-countup";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+import Loader from "@/components/loader/loader";
 
 const chartConfig = {
   desktop: {
@@ -32,13 +32,14 @@ const chartConfig = {
 const CurrencyChart = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<any>([]);
+  const [reachLimit, setReachLimit] = useState(false);
 
   useEffect(() => {
     setLoading(true);
     getUahCurrency().then((res) => {
       if (res.isSuccess) {
         setLoading(false);
-        const chartData = Object.entries(res.data.quotes).map(
+        const chartData = Object.entries(res?.data?.quotes || []).map(
           ([currencyPair, rate]) => {
             return {
               currency: currencyPair.replace("UAH", ""),
@@ -48,25 +49,31 @@ const CurrencyChart = () => {
         );
         setData(chartData);
         console.log(chartData);
-      }
+      } else if (res.reachLimit) setReachLimit(true);
     });
   }, []);
   return (
-    <div className={"flex justify-center items-center w-full p-20"}>
-      <TextGenerateEffect words={"1 UAH ="} />
-      <div className={"flex items-center justify-between gap-x-10"}>
+    <div
+      className={
+        "flex flex-col md:flex-row justify-center items-center w-full p-6 pt-14 md:p-20"
+      }
+    >
+      <TextGenerateEffect
+        words={"The hryvnia (UAH) exchange rate against other currencies."}
+      />
+      <div className={"flex items-center justify-between md:gap-x-10"}>
         <div className={"flex text-6xl font-black text-primary"}></div>
 
         <Card className={"min-w-4xl min-h-96"}>
           <CardHeader>
-            <CardTitle>Currency UAH Chart</CardTitle>
+            <CardTitle className={"font-black"}>How much is 1 UAH</CardTitle>
             <CardDescription className={"mb-4"}>
               Showing the current exchange rate of currencies (USD, EUR)
               <span className={"font-bold"}> against the 1 UAH</span>.
             </CardDescription>
           </CardHeader>
-          <CardContent className={"min-h-[310px]"}>
-            {!loading && (
+          <CardContent>
+            {!loading ? (
               <ChartContainer config={chartConfig}>
                 <AreaChart
                   accessibilityLayer
@@ -97,6 +104,18 @@ const CurrencyChart = () => {
                   />
                 </AreaChart>
               </ChartContainer>
+            ) : (
+              <div
+                className={
+                  "flex items-center justify-center h-[283px] w-full mb-2"
+                }
+              >
+                {reachLimit ? (
+                  <ShieldAlert size={60} color={"red"} />
+                ) : (
+                  <Loader />
+                )}
+              </div>
             )}
           </CardContent>
           <CardFooter>
